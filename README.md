@@ -70,5 +70,5 @@ This dashboard should be able to see the status of all of the servers in the sys
  - [ ] Get the status of the election of each server in the system.
 
 #### Improvement 🎉
- - [ ] Try to make it this time in Svelte for simplicity of build and stuff...
+ - [ ] Try to make it this time in [Svelte 🔗](https://svelte.dev/) for simplicity of build and stuff...
  - [ ] Show how the election is being made.
