@@ -13,36 +13,41 @@ The server is the one that can be leader or follower at some point in the archit
   - Request GET: /status
     ```JSON
     // response body 📤
+    // OK
     {
-      response: 200 // OK
+      "response": 200
     }
     ```
   - Request POST: /election
     ```JSON
     // response body 📤
+    // OK, and will takeover from here.
     {
-      response: 200 // OK, and will takeover from here.
+      "response": 200 
     }
     ```
   - Request PUT: /newLeaderPort
     ```JSON
     // request body 📥
+    // I'm the new leader, you should listen to this port.
     {
-      newLeaderPort: 123456 // I'm the new leader, you should listen to this port.
+      "newLeaderPort": 123456
     }
     ```
   - Request GET: /leaderPort
     ```JSON
     // response body 📤
+    // This is the current leader of the system.
     {
-      leaderPort: 654321 // This is the current leader of the system.
+      "leaderPort": 654321
     }
     ```
   - Request GET: /electionStatus
     ```JSON
     // response body 📤
+    // An election is not ongoing yet.
     {
-      electionStatus: false // An election is not ongoing yet.
+      "electionStatus": false
     }
     ```
 - [ ] Make two servers communicate with each other.
