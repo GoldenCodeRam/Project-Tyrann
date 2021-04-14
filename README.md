@@ -1,5 +1,5 @@
 # Project-Tyrann 👩‍⚖️
-Bully Leader Election Algorithm implementation in Docker.
+Bully Leader Election Algorithm implementation in Docker. Using [this 🔗](https://www.cs.colostate.edu/~cs551/CourseNotes/Synchronization/BullyExample.html) page as an example of the bully algorithm.
 
 ## Elements of the project
 
