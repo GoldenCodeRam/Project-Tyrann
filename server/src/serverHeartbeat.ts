@@ -1,13 +1,12 @@
+import { ServerInformation } from './interfaces/serverInformation';
 import { getNeighbours } from './network';
 
 export default class ServerHeartbeat {
-  private listOfNeighbours = [];
+  private _listOfNeighbours: Array<ServerInformation> = [];
 
   constructor() {
-    
-  }
-
-  private startLeaderHeartbeat(): void {
-
+    getNeighbours().then((neighbours) => {
+      this._listOfNeighbours = neighbours;
+    });
   }
 }

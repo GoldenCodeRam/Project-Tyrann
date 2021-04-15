@@ -14,9 +14,36 @@ const serverLogger = createLogger({
       format: 'hh:mm:ss A',
     }),
     myFormat,
-  )
+  ),
+  transports: [new transports.Console()],
+});
+
+const heartbeatLogger = createLogger({
+  format: combine(
+    format.colorize(),
+    label({ label: "Heartbeat 🩸" }),
+    timestamp({
+      format: 'hh:mm:ss A',
+    }),
+    myFormat,
+  ),
+  transports: [new transports.Console()],
+});
+
+const networkLogger = createLogger({
+  format: combine(
+    format.colorize(),
+    label({ label: "Network 📡" }),
+    timestamp({
+      format: 'hh:mm:ss A',
+    }),
+    myFormat,
+  ),
+  transports: [new transports.Console()],
 });
 
 export {
   serverLogger,
+  heartbeatLogger,
+  networkLogger,
 };
