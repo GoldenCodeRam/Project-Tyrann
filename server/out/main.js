@@ -10,7 +10,7 @@ console.clear();
 var app = express_1.default();
 var port = 8080;
 var serverHeartbeat = new serverHeartbeat_1.default();
-app.get('/status', function (request, response) {
+app.get('/status', function (_, response) {
     response.sendStatus(200);
 });
 app.listen(port, function () {
