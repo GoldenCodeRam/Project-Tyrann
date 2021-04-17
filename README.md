@@ -50,6 +50,7 @@ The server is the one that can be leader or follower at some point in the archit
       "electionStatus": false
     }
     ```
+- [ ] Request the list of all of the current running servers in Docker to the Coordinator.
 - [ ] Make two servers communicate with each other.
 - [ ] The two servers should be sending `/status` requests every 3 or 10 seconds to the one that is the leader.
 - [ ] If the leader fails to make a response, a new election is made by the server who detected the failure.
@@ -58,12 +59,12 @@ The server is the one that can be leader or follower at some point in the archit
 #### Improvement 🎉
 - [ ] May two or three requests be made as a Websocket, for it to be as realtime.
 
-### Dashboard 🖥
+### Dashboard 🖥 / Coordinator 👩‍🍳
 
-This dashboard should be able to see the status of all of the servers in the system and their statuses.
+This dashboard should be able to see the status of all of the servers in the system and their statuses and also has a little bit of functionality with the group of servers.
 
 #### Checklist 📋
- - [ ] Maybe as a websocket? For the real time of the statuses of the servers.
+ - [ ] Send the list of running servers currently in Docker to a server that has started and it does the GET request.
  - [ ] Show all of the servers in the system.
  - [ ] Get all of the statuses of the servers in the system.
  - [ ] Get the status of the leader of each server in the system.
