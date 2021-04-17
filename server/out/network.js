@@ -43,22 +43,14 @@ exports.getNeighbours = void 0;
 var util_1 = __importDefault(require("util"));
 var child_process_1 = require("child_process");
 var logger_1 = require("./utils/logger");
+var COORDINATOR_SERVER_URL = "127.0.0.1:8080";
 var execPromise = util_1.default.promisify(child_process_1.exec);
 function getNeighbours() {
     return __awaiter(this, void 0, void 0, function () {
-        var neighbours, _a, stderr, stdout;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    logger_1.networkLogger.info('Getting the neighbours of this node.');
-                    neighbours = [];
-                    return [4 /*yield*/, execPromise('bash ./src/scripts/getNeighbours.sh')];
-                case 1:
-                    _a = _b.sent(), stderr = _a.stderr, stdout = _a.stdout;
-                    // TODO: Parse the information from the getNeighbours.sh file, maybe format the output of the script to a JSON.
-                    logger_1.networkLogger.info("The found neighbours are: " + neighbours);
-                    return [2 /*return*/, neighbours];
-            }
+        return __generator(this, function (_a) {
+            logger_1.networkLogger.info('Getting the neighbours of this node.');
+            logger_1.networkLogger.info('Making request for neighbours to the coordinator server...');
+            return [2 /*return*/, []];
         });
     });
 }

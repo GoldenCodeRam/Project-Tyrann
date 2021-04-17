@@ -12,7 +12,7 @@ const serverHeartbeat = new ServerHeartbeat();
 
 app.get('/status', (_, response) => {
   response.sendStatus(200);
-})
+});
 
 app.listen(port, () => {
   serverLogger.info(`Server running on inner port: 127.0.0.1:${port}`);

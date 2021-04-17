@@ -1,1 +1,1 @@
-docker run --label server1 -p 8080:8080 project/tyrann-server
+docker run -d --label server1 -p $1:8080 project/tyrann-server
