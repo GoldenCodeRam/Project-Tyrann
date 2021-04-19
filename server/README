@@ -1,2 +1,2 @@
-Para que pueda haaber comunicacion entre servidores
+Para que pueda existir comunicacion entre servidores
 docker network create --driver bridge bully
