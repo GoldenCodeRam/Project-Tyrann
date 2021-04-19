@@ -8,12 +8,12 @@ import { ServerInformation } from './interfaces/serverInformation';
 const COORDINATOR_SERVER_URL = "127.0.0.1:8080";
 const execPromise = util.promisify(exec);
 
-async function getNeighbours(): Promise<Array<ServerInformation>> {
+async function getNodes(): Promise<Array<ServerInformation>> {
   networkLogger.info('Getting the neighbours of this node.');
   networkLogger.info('Making request for neighbours to the coordinator server...');
-  return [];
+  return axios.get(`http://${COORDINATOR_SERVER_URL}/nodes`);
 }
 
 export {
-  getNeighbours,
+  getNodes,
 }

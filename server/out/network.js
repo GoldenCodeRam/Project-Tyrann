@@ -39,19 +39,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNeighbours = void 0;
+exports.getNodes = void 0;
 var util_1 = __importDefault(require("util"));
 var child_process_1 = require("child_process");
+var axios_1 = __importDefault(require("axios"));
 var logger_1 = require("./utils/logger");
 var COORDINATOR_SERVER_URL = "127.0.0.1:8080";
 var execPromise = util_1.default.promisify(child_process_1.exec);
-function getNeighbours() {
+function getNodes() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             logger_1.networkLogger.info('Getting the neighbours of this node.');
             logger_1.networkLogger.info('Making request for neighbours to the coordinator server...');
-            return [2 /*return*/, []];
+            return [2 /*return*/, axios_1.default.get("http://" + COORDINATOR_SERVER_URL + "/nodes")];
         });
     });
 }
-exports.getNeighbours = getNeighbours;
+exports.getNodes = getNodes;

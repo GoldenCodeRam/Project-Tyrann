@@ -1,1 +1,2 @@
-docker run -d --label server1 -p $1:8080 project/tyrann-server
+docker run -dit --rm --name server$1 -p 300$1:8080 --network bully project/tyrann-server
+
