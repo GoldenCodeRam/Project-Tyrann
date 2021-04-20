@@ -10,16 +10,16 @@ export default class ServerHeartbeat {
       this._listOfNodes = neighbours;
       heartbeatLogger.info('List of nodes received successfully')
     })
-    .catch(function (error) {
-      heartbeatLogger.error('Could not received the list of nodes successfully')
-    });
+      .catch(function (error) {
+        heartbeatLogger.error('Could not received the list of nodes successfully')
+      });
   }
 
   public getListOfNodes(): Array<ServerInformation> {
     return this._listOfNodes;
   }
 
-  public setListOfNode(listOfNodes:Array<ServerInformation>){
+  public setListOfNodes(listOfNodes: Array<ServerInformation>) {
     this._listOfNodes = listOfNodes;
   }
 }
