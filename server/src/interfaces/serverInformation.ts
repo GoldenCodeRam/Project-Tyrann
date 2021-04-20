@@ -1,4 +1,11 @@
 export interface ServerInformation {
-  serverIp: number,
-  serverPort: number,
+  serverId: number,
+  serverIp: string,
+  serverPort: string,
+}
+
+export function checkServerInformation(data: ServerInformation): ServerInformation | undefined {
+  if (data.serverIp && data.serverPort) {
+    return data as ServerInformation;
+  }
 }

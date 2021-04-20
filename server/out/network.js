@@ -40,12 +40,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNodes = void 0;
-var util_1 = __importDefault(require("util"));
-var child_process_1 = require("child_process");
 var axios_1 = __importDefault(require("axios"));
 var logger_1 = require("./utils/logger");
 var COORDINATOR_SERVER_URL = "127.0.0.1:8080";
-var execPromise = util_1.default.promisify(child_process_1.exec);
 function getNodes() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

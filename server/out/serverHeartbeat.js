@@ -17,7 +17,7 @@ var ServerHeartbeat = /** @class */ (function () {
     ServerHeartbeat.prototype.getListOfNodes = function () {
         return this._listOfNodes;
     };
-    ServerHeartbeat.prototype.setListOfNode = function (listOfNodes) {
+    ServerHeartbeat.prototype.setListOfNodes = function (listOfNodes) {
         this._listOfNodes = listOfNodes;
     };
     return ServerHeartbeat;

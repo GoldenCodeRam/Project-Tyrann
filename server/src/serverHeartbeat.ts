@@ -8,10 +8,10 @@ export default class ServerHeartbeat {
   constructor() {
     getNodes().then((neighbours) => {
       this._listOfNodes = neighbours;
-      heartbeatLogger.info('List of nodes received successfully')
+      heartbeatLogger.info('List of nodes received successfully');
     })
-      .catch(function (error) {
-        heartbeatLogger.error('Could not received the list of nodes successfully')
+      .catch((error) => {
+        heartbeatLogger.error('Could not received the list of nodes successfully');
       });
   }
 
@@ -19,7 +19,7 @@ export default class ServerHeartbeat {
     return this._listOfNodes;
   }
 
-  public setListOfNodes(listOfNodes: Array<ServerInformation>) {
+  public setListOfNodes(listOfNodes: Array<ServerInformation>): void {
     this._listOfNodes = listOfNodes;
   }
 }
