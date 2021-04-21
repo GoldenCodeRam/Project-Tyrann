@@ -29,14 +29,20 @@
       </svg>
     </div>
     <div class="mt-8">
-      <p class="text-3xl font-semibold my-2">Server {serverNum} 🦸‍♂️</p>
+      <p class="text-3xl font-semibold my-2">Server {serverNum} </p>
       <div class="flex space-x-2 text-gray-600 text-sm">
         <p>Server IP: {serverIP}</p>
       </div>
       <div class="flex space-x-2 text-gray-600 text-sm my-3">
         <p>Running on port: {serverPort}</p>
       </div>
+      <div class="flex space-x-2 text-white text-base my-3">
+        <button class="rounded-full py-3 px-6 outline focus:outline-none transition duration-500 ease-in-out text-red-600 hover:bg-red-700 hover:text-white transform hover:-translate-y-1 hover:scale-110 ">
+          Delete Server
+        </button>
+      </div>
     </div>
+
   </div>
   
   <style global lang="postcss">
