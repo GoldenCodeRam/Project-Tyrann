@@ -1,25 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var network_1 = require("./network");
 var logger_1 = require("./utils/logger");
 var ServerHeartbeat = /** @class */ (function () {
-    function ServerHeartbeat() {
+    function ServerHeartbeat(neighbours) {
         var _this = this;
         this._listOfNodes = [];
-        network_1.getNodes().then(function (neighbours) {
-            _this._listOfNodes = neighbours;
-            logger_1.heartbeatLogger.info('List of nodes received successfully');
-        })
-            .catch(function (error) {
-            logger_1.heartbeatLogger.error('Could not received the list of nodes successfully');
+        neighbours.forEach(function (information) {
+            if (information.serverPort !== process.env.SERVER_PORT) {
+                _this._listOfNodes.push({
+                    serverName: information.serverName,
+                    serverPort: information.serverPort,
+                    serverId: information.serverId,
+                    serverIp: process.env.SERVER_NETWORK_IP,
+                });
+            }
         });
+        logger_1.heartbeatLogger.info('Neighbours got from coordinator:');
+        console.log(this._listOfNodes);
     }
-    ServerHeartbeat.prototype.getListOfNodes = function () {
-        return this._listOfNodes;
-    };
-    ServerHeartbeat.prototype.setListOfNodes = function (listOfNodes) {
-        this._listOfNodes = listOfNodes;
-    };
     return ServerHeartbeat;
 }());
 exports.default = ServerHeartbeat;

@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkServerInformation = void 0;
-function checkServerInformation(data) {
-    if (data.serverIp && data.serverPort) {
-        return data;
-    }
+exports.instanceOfServerInformation = void 0;
+function instanceOfServerInformation(object) {
+    return 'serverName, serverPort, serverId, serverIp' in object;
 }
-exports.checkServerInformation = checkServerInformation;
+exports.instanceOfServerInformation = instanceOfServerInformation;

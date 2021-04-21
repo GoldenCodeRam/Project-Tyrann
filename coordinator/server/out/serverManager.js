@@ -39,29 +39,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var Constants_1 = require("./utils/Constants");
+exports.getRunningServers = void 0;
+var util_1 = __importDefault(require("util"));
+var child_process_1 = __importDefault(require("child_process"));
 var logger_1 = require("./utils/logger");
-var serverManager_1 = require("./serverManager");
-console.clear();
-var app = express_1.default();
-app.use(express_1.default.json());
-app.get('/connect', function (_, response) { return __awaiter(void 0, void 0, void 0, function () {
-    var runningServers;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                logger_1.serverLogger.info('New server connected to the network!');
-                return [4 /*yield*/, serverManager_1.getRunningServers()];
-            case 1:
-                runningServers = _a.sent();
-                response.send({
-                    runningServers: runningServers
-                });
-                return [2 /*return*/];
-        }
+var _execPromise = util_1.default.promisify(child_process_1.default.exec);
+function getRunningServers() {
+    return __awaiter(this, void 0, void 0, function () {
+        var runningServers, stdout, runningServersInformation;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    logger_1.serverManagerLogger.info('Getting running servers from Docker.');
+                    runningServers = new Array();
+                    return [4 /*yield*/, _execPromise('bash ./src/scripts/getRunningServers.sh')];
+                case 1:
+                    stdout = (_a.sent()).stdout;
+                    runningServersInformation = JSON.parse(stdout);
+                    runningServersInformation.forEach(function (information) {
+                        runningServers.push({
+                            serverName: information.serverName,
+                            serverPort: information.serverPort,
+                            serverStatus: information.serverStatus,
+                            serverId: information.serverId,
+                        });
+                    });
+                    return [2 /*return*/, runningServers];
+            }
+        });
     });
-}); });
-app.listen(Constants_1.COORDINATOR_SERVER_PORT, function () {
-    logger_1.serverLogger.info("Coordinator server running in host at: " + Constants_1.COORDINATOR_SERVER_PORT + ".");
-});
+}
+exports.getRunningServers = getRunningServers;

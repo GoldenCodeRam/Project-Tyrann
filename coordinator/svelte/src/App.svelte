@@ -10,10 +10,10 @@
 	  <h1 class="text-4xl">The current leader is 🦸‍♂️:</h1>
   
 	  <ServerCard
-		serverNum={"Leader"}
-		serverIP={"X.X.X.X"}
-		serverPort={"PORT"}
-		colorSVG={"bg-yellow-500"}
+		  serverNum={"Leader"}
+		  serverIP={"X.X.X.X"}
+		  serverPort={"PORT"}
+		  colorSVG={"bg-yellow-500"}
 	  />
 	</div>
   

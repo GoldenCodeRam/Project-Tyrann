@@ -3,13 +3,13 @@ import { createLogger, format, transports } from 'winston';
 const { combine, timestamp, label, printf } = format;
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
-  return `[${timestamp} : ${label}]  ${level}: ${message}`;
+  return `${level} [${timestamp} : ${label}]\n${message}`;
 });
 
 const serverLogger = createLogger({
   format: combine(
     format.colorize(),
-    label({ label: "Server 🤖" }),
+    label({ label: 'Server 🤖' }),
     timestamp({
       format: 'hh:mm:ss A',
     }),
@@ -21,7 +21,7 @@ const serverLogger = createLogger({
 const heartbeatLogger = createLogger({
   format: combine(
     format.colorize(),
-    label({ label: "Heartbeat 🩸" }),
+    label({ label: 'Heartbeat 🩸' }),
     timestamp({
       format: 'hh:mm:ss A',
     }),
@@ -33,7 +33,7 @@ const heartbeatLogger = createLogger({
 const networkLogger = createLogger({
   format: combine(
     format.colorize(),
-    label({ label: "Network 📡" }),
+    label({ label: 'Network 📡' }),
     timestamp({
       format: 'hh:mm:ss A',
     }),

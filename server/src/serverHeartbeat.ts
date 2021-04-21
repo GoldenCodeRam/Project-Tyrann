@@ -1,25 +1,21 @@
 import { ServerInformation } from './interfaces/serverInformation';
-import { getNodes } from './network';
-import { heartbeatLogger } from './utils/logger';
+import { heartbeatLogger as logger } from './utils/logger';
 
 export default class ServerHeartbeat {
   private _listOfNodes: Array<ServerInformation> = [];
 
-  constructor() {
-    getNodes().then((neighbours) => {
-      this._listOfNodes = neighbours;
-      heartbeatLogger.info('List of nodes received successfully');
-    })
-      .catch((error) => {
-        heartbeatLogger.error('Could not received the list of nodes successfully');
-      });
-  }
-
-  public getListOfNodes(): Array<ServerInformation> {
-    return this._listOfNodes;
-  }
-
-  public setListOfNodes(listOfNodes: Array<ServerInformation>): void {
-    this._listOfNodes = listOfNodes;
+  constructor(neighbours: any) {
+    neighbours.forEach((information: any) => {
+      if (information.serverPort !== process.env.SERVER_PORT) {
+        this._listOfNodes.push({
+          serverName: information.serverName,
+          serverPort: information.serverPort,
+          serverId: information.serverId,
+          serverIp: process.env.SERVER_NETWORK_IP as string,
+        });
+      }
+    });
+    logger.info('Neighbours got from coordinator:');
+    console.log(this._listOfNodes);
   }
 }

@@ -13,75 +13,79 @@ console.clear();
 var app = express_1.default();
 app.use(express_1.default.json());
 // Id aleatorio del servidor
-var id = Math.round(Math.random() * 100);
+var _currentServerInformation = {
+    serverName: "server_" + process.env.SERVER_PORT,
+    serverId: String(Math.round(Math.random() * 100)),
+    serverIp: process.env.SERVER_NETWORK_IP,
+    serverPort: parseInt(process.env.SERVER_PORT),
+};
+var _serverHeartbeat;
 // Informacion del servidor lider
 var leader;
 // Estado de la eleccion
 var electionStatus = false;
 // Informacion de este servidor
 var myinfo;
-var serverHeartbeat;
-function startElection() {
-    var flag = true;
-    var aux = serverHeartbeat.getListOfNodes();
-    var _loop_1 = function (i) {
-        if (aux[i].serverIp == myinfo.serverIp && aux[i].serverPort == myinfo.serverPort) {
-            logger_1.serverLogger.error('Something wrong happened!');
-        }
-        else {
-            axios_1.default.put("http://" + aux[i].serverIp + ":" + aux[i].serverPort + "/electionInCourse", { electionStatus: true });
-            axios_1.default.post("http://" + aux[i].serverIp + ":" + aux[i].serverPort + "/election").then(function (response) {
-                if (response.data == true) {
-                    flag = false;
-                }
-                logger_1.serverLogger.info("Server " + aux[i].serverIp + ":" + aux[i].serverPort + " is on");
-            }).catch(function (error) {
-                logger_1.serverLogger.error("Server " + aux[i].serverIp + ":" + aux[i].serverPort + " is off");
-            });
-        }
-    };
-    for (var i = 0; i < aux.length; i++) {
-        _loop_1(i);
-    }
-    for (var i = 0; i < aux.length; i++) {
-        if (flag == true) {
-            if (aux[i].serverIp == myinfo.serverIp && aux[i].serverPort == myinfo.serverPort) {
-                logger_1.serverLogger.error('Something wrong happened!');
-            }
-            else {
-                axios_1.default.put("http://" + aux[i].serverIp + ":" + aux[i].serverPort + "/newLeader", { newLeader: myinfo });
-                axios_1.default.put("http://" + aux[i].serverIp + ":" + aux[i].serverPort + "/electionInCourse", { electionStatus: false });
-            }
-            logger_1.serverLogger.info('I am the new leader');
-        }
-    }
-    logger_1.serverLogger.info('Election finished');
-}
+// function startElection(): void {
+//   let flag = true;
+//   const aux = serverHeartbeat.getListOfNodes();
+//   for (let i = 0; i < aux.length; i++) {
+//     if (aux[i].serverIp == myinfo.serverIp && aux[i].serverPort == myinfo.serverPort) {
+//       serverLogger.error('Something wrong happened!');
+//     } else {
+//       axios.put(`http://${ip de la red}:${aux[i].serverPort}/electionInCourse`, { electionStatus: true });
+//       axios.post(`http://${ip de la red}:${aux[i].serverPort}/election`).then(function (response) {
+//         if (response.data == true) {
+//           flag = false;
+//         }
+//         serverLogger.info(`Server ${aux[i].serverIp}:${aux[i].serverPort} is on`);
+//       }).catch(function (error) {
+//         serverLogger.error(`Server ${aux[i].serverIp}:${aux[i].serverPort} is off`);
+//       });
+//     }
+//   }
+//   for (let i = 0; i < aux.length; i++) {
+//     if (flag == true) {
+//       if (aux[i].serverIp == myinfo.serverIp && aux[i].serverPort == myinfo.serverPort) {
+//         serverLogger.error('Something wrong happened!');
+//       } else {
+//         axios.put(`http://${172.20.0.1}:${aux[i].serverPort}/newLeader`, { newLeader: myinfo });
+//         axios.put(`http://${172.20.0.1}:${aux[i].serverPort}/electionInCourse`, { electionStatus: false });
+//       }
+//       serverLogger.info('I am the new leader');
+//     }
+//   }
+//   serverLogger.info('Election finished');
+// }
 //Funcion que hace el latido de corazon al servidor lider cada segundo mientras el estado de eleccion sea falso
-function heartBeat() {
-    setInterval(function () {
-        if (!electionStatus) {
-            axios_1.default.get("http://" + leader.serverIp + ":" + leader.serverPort + "/status").then(function (response) {
-                logger_1.serverLogger.info('Leader is on');
-            }).catch(function (error) {
-                startElection();
-                logger_1.serverLogger.info('Leader is off, starting new election');
-            });
-        }
-    }, 1000);
-}
-app.get('/status', function (_, res) {
-    res.sendStatus(200);
+// function heartBeat(): void {
+//   setInterval(() => {
+//     if (!electionStatus) {
+//       axios.get(`http://${leader.serverIp}:${leader.serverPort}/status`).then(function (response) {
+//         serverLogger.info('Leader is on');
+//       }).catch(function (error) {
+//         startElection();
+//         serverLogger.info('Leader is off, starting new election');
+//       });
+//     }
+//   }, 1000);
+// }
+app.get('/status', function (_, response) {
+    logger_1.serverLogger.info('Request to get the status of the server');
+    response.sendStatus(200);
+});
+app.get('/id', function (_, response) {
+    logger_1.serverLogger.info('Request to get the ID of the server');
+    response.send({ id: _currentServerInformation.serverId });
 });
 // Peticion que establece la lista de nodos del servidor en caso de ser necesario
-app.post('/nodes', function (req) {
-    serverHeartbeat.setListOfNodes(req.body);
+app.post('/nodes', function (request) {
     logger_1.serverLogger.info('List of nodes updated successfully');
+    //serverHeartbeat.setListOfNodes(req.body);
 });
 app.put('/newLeader', function (request) {
-    var serverInformation = serverInformation_1.checkServerInformation(request.body);
+    var serverInformation = serverInformation_1.instanceOfServerInformation(request.body);
     if (serverInformation) {
-        leader = serverInformation;
         logger_1.serverLogger.info('Server leader updated successfully');
     }
     else {
@@ -89,15 +93,14 @@ app.put('/newLeader', function (request) {
     }
 });
 // Peticion para comprobar si el id es mayor o menor
-app.post('/election', function (req, res) {
-    if (req.body.id < id) {
-        startElection();
-        res.json({ data: true });
-    }
-    else {
-        logger_1.serverLogger.error('Something wrong happened!');
-    }
-});
+// app.post('/election', (req, res) => {
+//   if (req.body.id < id) {
+//     startElection();
+//     res.json({ data: true });
+//   } else {
+//     serverLogger.error('Something wrong happened!');
+//   }
+// });
 app.put('/electionInCourse', function (req, res) {
     electionStatus = req.body.electionStatus;
     res.json({ data: 'Election started succesfully' });
@@ -108,16 +111,15 @@ app.get('/electionStatus', function (_, res) {
     logger_1.serverLogger.info("Request to get the election status, and it is: " + electionStatus);
 });
 app.listen(Constants_1.SERVER_PORT, function () {
-    logger_1.serverLogger.info("Server running on inner port: 127.0.0.1:" + Constants_1.SERVER_PORT);
-    // Se comunica con el servidor inmediatamente 
-    axios_1.default.post("http://" + Constants_1.COORDINATOR_SERVER_URL + "/connect").then(function (response) {
-        logger_1.serverLogger.info("Response got from coordinator server: " + response.data.data);
-        leader = response.data.leader;
-        myinfo = response.data.info;
-        serverHeartbeat = new serverHeartbeat_1.default();
-        heartBeat();
-        logger_1.serverLogger.error('Connection established with server coordinator');
+    logger_1.serverLogger.info("Server running on inner port: " + Constants_1.SERVER_PORT);
+    logger_1.serverLogger.info('Current server information:');
+    console.log(_currentServerInformation);
+    // Communicate with the coordinator server as soon it starts
+    axios_1.default.get("http://" + Constants_1.COORDINATOR_SERVER_URL + "/connect").then(function (response) {
+        logger_1.serverLogger.info('Response got from coordinator server:');
+        console.log(response.data.runningServers);
+        _serverHeartbeat = new serverHeartbeat_1.default(response.data.runningServers);
     }).catch(function (error) {
-        logger_1.serverLogger.error("Could not connect to server coordinator: " + error);
+        logger_1.serverLogger.error("Could not connect to coordinator server! " + error);
     });
 });

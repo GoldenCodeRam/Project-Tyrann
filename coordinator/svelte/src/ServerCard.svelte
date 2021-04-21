@@ -3,6 +3,7 @@
     export let serverIP;
     export let serverPort;
     export let colorSVG;
+    
   </script>
   
   <div
