@@ -1,30 +1,41 @@
-<script lang="ts">
-	export let name: string;
-</script>
-
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
+<script>
+	import ServerCard from "./ServerCard.svelte";
+  </script>
+  
+  <main>
+	<div class="flex flex-col items-center justify-center text-center mt-10">
+	  <h1 class="text-4xl">
+		Hi! I'm the Coordinator Server for the Bully Algorithm 👨‍⚖
+	  </h1>
+	  <h1 class="text-4xl">The current leader is 🦸‍♂️:</h1>
+  
+	  <ServerCard
+		serverNum={"Leader"}
+		serverIP={"X.X.X.X"}
+		serverPort={"PORT"}
+		colorSVG={"bg-yellow-500"}
+	  />
+	</div>
+  
+	<hr />
+  
+	<div class="flex items-center justify-center mt-10">
+	  <div
+		class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
+	  />
+  
+	  <ServerCard
+		serverNum={1}
+		serverIP={"X.X.X.X"}
+		serverPort={"PORT"}
+		colorSVG={"bg-green-500"}
+	  />
+	</div>
+  </main>
+  
+  <style global lang="postcss">
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+  </style>
+  
