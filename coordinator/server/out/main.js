@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var axios_1 = __importDefault(require("axios"));
 var Constants_1 = require("./utils/Constants");
 var logger_1 = require("./utils/logger");
 var serverManager_1 = require("./serverManager");
@@ -47,7 +48,7 @@ console.clear();
 var app = express_1.default();
 app.use(express_1.default.json());
 app.get('/connect', function (_, response) { return __awaiter(void 0, void 0, void 0, function () {
-    var runningServers;
+    var runningServers, _loop_1, _i, runningServers_1, server;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -58,7 +59,36 @@ app.get('/connect', function (_, response) { return __awaiter(void 0, void 0, vo
                 response.send({
                     runningServers: runningServers
                 });
-                return [2 /*return*/];
+                logger_1.serverLogger.info('Sending the new server list to the network');
+                _loop_1 = function (server) {
+                    var response_1;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0: return [4 /*yield*/, axios_1.default.post("http://127.0.0.1:" + server.serverPort + "/nodes", { runningServers: runningServers }).catch(function () {
+                                    logger_1.serverLogger.error("Error sending the new server list to the server on port " + server.serverPort);
+                                })];
+                            case 1:
+                                response_1 = _b.sent();
+                                if (response_1) {
+                                    console.log("New server list sent to server in port " + server.serverPort);
+                                }
+                                return [2 /*return*/];
+                        }
+                    });
+                };
+                _i = 0, runningServers_1 = runningServers;
+                _a.label = 2;
+            case 2:
+                if (!(_i < runningServers_1.length)) return [3 /*break*/, 5];
+                server = runningServers_1[_i];
+                return [5 /*yield**/, _loop_1(server)];
+            case 3:
+                _a.sent();
+                _a.label = 4;
+            case 4:
+                _i++;
+                return [3 /*break*/, 2];
+            case 5: return [2 /*return*/];
         }
     });
 }); });

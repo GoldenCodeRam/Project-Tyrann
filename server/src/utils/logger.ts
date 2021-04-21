@@ -21,7 +21,7 @@ const serverLogger = createLogger({
 const heartbeatLogger = createLogger({
   format: combine(
     format.colorize(),
-    label({ label: 'Heartbeat 🩸' }),
+    label({ label: 'Heartbeat 💓' }),
     timestamp({
       format: 'hh:mm:ss A',
     }),

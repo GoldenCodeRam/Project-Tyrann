@@ -15,7 +15,7 @@ var serverLogger = winston_1.createLogger({
 });
 exports.serverLogger = serverLogger;
 var heartbeatLogger = winston_1.createLogger({
-    format: combine(winston_1.format.colorize(), label({ label: 'Heartbeat 🩸' }), timestamp({
+    format: combine(winston_1.format.colorize(), label({ label: 'Heartbeat 💓' }), timestamp({
         format: 'hh:mm:ss A',
     }), myFormat),
     transports: [new winston_1.transports.Console()],
